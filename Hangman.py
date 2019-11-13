@@ -1,5 +1,9 @@
 DictionaryPath = "./Dictionary.txt"
 
+import random
+
+import Art
+
 def LoadDictionary(path: str) -> list:
 	# Load file
 	file = None
@@ -31,5 +35,11 @@ def LoadDictionary(path: str) -> list:
 	# Return that dictionary
 	return dictionary
 
-# Test
-print(LoadDictionary(DictionaryPath))
+def Hangman():
+	dictionary = LoadDictionary(DictionaryPath)
+	word = random.choice(dictionary)
+	word = word.upper()
+	guesses = []
+
+if __name__ == "__main__":
+	Hangman()
