@@ -17,16 +17,11 @@
 	\------
 """
 
-LeftOffset = 50
-Lines = 6
-
 import sys
+import ConsoleTools
 
-def GetPrintableWord(word: str, guesses: list) -> str:
-	output = ""
-	for character in word: output += character if character in guesses else "-"
-	return output
-
+#region Stage Definitions
+Lines = 6
 def Stage1() -> str: return ("\n" * (Lines - 1)) + "\\------\n"
 def Stage2() -> str:
 	return str(
@@ -118,6 +113,7 @@ def Stage11() -> str:
 		"|  / \\ \n" +
 		"\\------\n"
 	)
+#endregion
 
 ArtStages = [
 	"\n" * Lines,
@@ -144,3 +140,8 @@ def TestArt():
 if __name__ == "__main__":
 	sys.stdout.write(chr(27) + "[2J")
 	TestArt()
+
+def GetPrintableWord(word: str, guesses: list) -> str:
+	output = ""
+	for character in word: output += character if character in guesses else "-"
+	return output

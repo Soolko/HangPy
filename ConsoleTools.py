@@ -1,4 +1,8 @@
 import sys
+import time
+
+XOffset = 10
+YOffset = 5
 
 def Clear():
 	# Escape sequence to clear the console window.
@@ -12,12 +16,38 @@ def SetCursor(x: int, y: int):
 
 # Position starts at 1.
 # Don't forget.
-def WriteFromPosition(input: str, x: int, y: int):
-	split = str.split(input, "\n")
+def WriteFromPosition(text: str, x: int, y: int):
+	split = str.split(text, "\n")
 	for line in split:
 		SetCursor(x, y)
 		sys.stdout.write(line)
 		y += 1
+
+# Position starts at 1.
+# Don't forget.
+def WriteErrorFromPosition(text: str, x: int, y: int):
+	split = str.split(text, "\n")
+	for line in split:
+		SetCursor(x, y)
+		sys.stderr.write(line)
+		y += 1
+
+TimeoutTime = 2.0
+
+DialogOffsetX = 10
+DialogOffsetY = 2
+
+def Dialog(text: str, x: int = DialogOffsetX, y: int = DialogOffsetY):
+	Clear()
+	WriteFromPosition(text, XOffset + x, YOffset + y)
+
+	time.sleep(TimeoutTime)
+
+def DialogError(text: str, x: int = DialogOffsetX, y: int = DialogOffsetY):
+	Clear()
+	WriteErrorFromPosition(text, XOffset + DialogOffsetX, YOffset + DialogOffsetY)
+
+	time.sleep(TimeoutTime)
 
 if __name__ == "__main__":
 	import time
