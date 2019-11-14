@@ -17,6 +17,17 @@
 	\------
 """
 
+Title = """
+>=>    >=>                                 >======>             
+>=>    >=>                                 >=>    >=>           
+>=>    >=>    >=> >=>  >==>>==>     >=>    >=>    >=> >=>   >=> 
+>=====>>=>  >=>   >=>   >=>  >=>  >=>  >=> >======>    >=> >=>  
+>=>    >=> >=>    >=>   >=>  >=> >=>   >=> >=>           >==>   
+>=>    >=>  >=>   >=>   >=>  >=>  >=>  >=> >=>            >=>   
+>=>    >=>   >==>>>==> >==>  >=>      >=>  >=>           >=>    
+                                   >=>                 >=>      
+"""
+
 import sys
 import ConsoleTools
 
@@ -138,7 +149,7 @@ def TestArt():
 		sys.stdout.write(ArtStages[i] + "\n")
 
 if __name__ == "__main__":
-	sys.stdout.write(chr(27) + "[2J")
+	ConsoleTools.Clear()
 	TestArt()
 
 def GetPrintableWord(word: str, guesses: list) -> str:

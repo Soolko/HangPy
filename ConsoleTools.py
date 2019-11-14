@@ -4,6 +4,21 @@ import time
 XOffset = 10
 YOffset = 5
 
+def GetInput():
+	if sys.platform.lower() != "win32":
+		import tty, termios
+		fd = sys.stdin.fileno()
+		oldSettings = termios.tcgetattr(fd)
+		try:
+			tty.setraw(sys.stdin.fileno())
+			char = sys.stdin.read(1)
+		finally:
+			termios.tcsetattr(fd, termios.TCSADRAIN, oldSettings)
+		return char
+	else:
+		import msvcrt
+		return msvcrt.getch()
+
 def Clear():
 	# Escape sequence to clear the console window.
 	sys.stdout.write(chr(27) + "[2J")

@@ -1,4 +1,5 @@
 DictionaryPath = "./Dictionary.txt"
+Version = "Submission 2"
 
 import sys
 import time
@@ -40,7 +41,7 @@ def LoadDictionary(path: str) -> list:
 	# Return that dictionary
 	return dictionary
 
-def Hangman():
+def Game():
 	dictionary = LoadDictionary(DictionaryPath)
 	word = random.choice(dictionary)
 	word = word.upper()
@@ -123,7 +124,58 @@ def Hangman():
 			ConsoleTools.YOffset + ConsoleTools.DialogOffsetY + 1
 		)
 	time.sleep(5.0)
-	print("\n")
+	Menu()
 
+def ExitProgram():
+	ConsoleTools.Clear()
+	exit(1)
+
+def Menu():
+	def PrintTitleScreen():
+		# Title
+		ConsoleTools.Clear()
+		ConsoleTools.WriteFromPosition(Text.Title, 5, 1)
+
+		# Version
+		versionStr = "Version: " + Version
+		ConsoleTools.WriteFromPosition(versionStr, 12, 10)
+
+	# Menu
+	selected = None
+
+	selection = 0
+	MaxOption = 1
+
+	while selected == None:
+		# Title
+		PrintTitleScreen()
+
+		# Play button
+		playString = "Play Hangman"
+		ConsoleTools.WriteFromPosition("> " + playString + " <" if selection == 0 else "  " + playString, 35, YOffset + 8)
+		
+		# Exit button
+		exitString = "Exit Program"
+		ConsoleTools.WriteFromPosition("> " + exitString + " <" if selection == 1 else "  " + exitString, 35, YOffset + 10)
+		
+		# Read input and move cursor, or set & execute the pointer
+		ConsoleTools.SetCursor(0, 0)
+		key = ConsoleTools.GetInput()
+		if key.upper() == "W":
+			if selection > 0:
+				selection -= 1
+		elif key.upper() == "S":
+			if selection < MaxOption:
+				selection += 1
+		elif key == chr(13):
+			# Set selection to the method when enter is pressed
+			if selection == 0: selected = Game
+			if selection == 1: selected = ExitProgram
+	
+	# Run the selected method through its pointer
+	selected()
+
+def Hangman():
+	Menu()
 
 if __name__ == "__main__": Hangman()
