@@ -57,8 +57,14 @@ def Game():
 	successfulGuesses = []
 	
 	# While guesses are less than the max amount of stages
-	guessesLeft = len(Text.ArtStages) - len(unsuccessfulGuesses)
-	while guessesLeft > 0:
+	def GetGuesses() -> int:
+		base = len(Text.ArtStages) - len(unsuccessfulGuesses)
+		for char in unsuccessfulGuesses:
+			if char in "AEIOU":
+				base -= 1
+		return base
+
+	while GetGuesses() > 0:
 		ConsoleTools.Clear()
 		
 		# Write the ASCII art
@@ -73,7 +79,7 @@ def Game():
 		ConsoleTools.WriteErrorFromPosition(Text.FormatArray(unsuccessfulGuesses), XOffset + 5, YOffset + 5)
 
 		# Write the guesses left
-		ConsoleTools.WriteFromPosition("You have " + str(guessesLeft) + " guesses left.", XOffset, YOffset + 7)
+		ConsoleTools.WriteFromPosition("You have " + str(GetGuesses()) + " guesses left.", XOffset, YOffset + 7)
 		
 		# Set cursor position to correct spot for input, then get the letter.
 		ConsoleTools.SetCursor(XOffset, YOffset + 8)
@@ -98,15 +104,11 @@ def Game():
 			# Add to successful guesses
 			successfulGuesses.append(guess)
 			ConsoleTools.Dialog("Successful Guess!")
-
-		# Set current guesses left
-		guessesLeft = len(Text.ArtStages) - len(unsuccessfulGuesses)
 		
 		# Check if word is fully guessed
 		if len(wordCharacters) == len(successfulGuesses): break
-			
 	
-	# Success / Game OverW
+	# Success / Game Over
 	ConsoleTools.TimeoutTime = 0.5
 	if len(wordCharacters) == len(successfulGuesses):
 		# Success
@@ -116,7 +118,11 @@ def Game():
 			ConsoleTools.XOffset + ConsoleTools.DialogOffsetX,
 			ConsoleTools.YOffset + ConsoleTools.DialogOffsetY + 1
 		)
+
+		# Get the score
+		
 	else:
+		# Failed
 		ConsoleTools.DialogError("You have failed to guess the word.")
 		ConsoleTools.WriteErrorFromPosition(
 			"The word was: " + word + ".",
