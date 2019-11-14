@@ -4,7 +4,7 @@ import sys
 import time
 import random
 
-import Art
+import Text
 import ConsoleTools
 from ConsoleTools import XOffset
 from ConsoleTools import YOffset
@@ -40,9 +40,6 @@ def LoadDictionary(path: str) -> list:
 	# Return that dictionary
 	return dictionary
 
-TimeoutTime = 1.5
-ConsoleTools.DialogTime = TimeoutTime
-
 def Hangman():
 	dictionary = LoadDictionary(DictionaryPath)
 	word = random.choice(dictionary)
@@ -59,23 +56,26 @@ def Hangman():
 	successfulGuesses = []
 	
 	# While guesses are less than the max amount of stages
-	guessesLeft = len(Art.ArtStages) - len(unsuccessfulGuesses)
+	guessesLeft = len(Text.ArtStages) - len(unsuccessfulGuesses)
 	while guessesLeft > 0:
 		ConsoleTools.Clear()
 		
 		# Write the ASCII art
-		ConsoleTools.WriteFromPosition(Art.ArtStages[len(unsuccessfulGuesses)], XOffset + 40, YOffset)
+		ConsoleTools.WriteFromPosition(Text.ArtStages[len(unsuccessfulGuesses)], XOffset + 50, YOffset + 2)
 
 		# Write the word
-		ConsoleTools.WriteFromPosition("Word:", XOffset + 4, YOffset + 1)
-		ConsoleTools.WriteFromPosition(Art.GetPrintableWord(word, successfulGuesses), XOffset + 12, YOffset + 1)
-		ConsoleTools.WriteFromPosition("=" * (len(word) + 2), XOffset + 11, YOffset + 2)
+		ConsoleTools.WriteFromPosition("Word:", XOffset + 4, YOffset + 2)
+		ConsoleTools.WriteFromPosition(Text.GetPrintableWord(word, successfulGuesses), XOffset + 12, YOffset + 2)
+
+		# Write unsuccessful guesses
+		ConsoleTools.WriteErrorFromPosition("Unsuccessful Guesses:", XOffset, YOffset + 4)
+		ConsoleTools.WriteErrorFromPosition(Text.FormatArray(unsuccessfulGuesses), XOffset + 5, YOffset + 5)
 
 		# Write the guesses left
-		ConsoleTools.WriteFromPosition("You have " + str(guessesLeft) + " guesses left.", XOffset, YOffset + 4)
+		ConsoleTools.WriteFromPosition("You have " + str(guessesLeft) + " guesses left.", XOffset, YOffset + 7)
 		
 		# Set cursor position to correct spot for input, then get the letter.
-		ConsoleTools.SetCursor(XOffset, YOffset + 5)
+		ConsoleTools.SetCursor(XOffset, YOffset + 8)
 		guess = input("Enter a letter: ")
 		guess = guess.upper()
 
@@ -99,13 +99,13 @@ def Hangman():
 			ConsoleTools.Dialog("Successful Guess!")
 
 		# Set current guesses left
-		guessesLeft = len(Art.ArtStages) - len(unsuccessfulGuesses)
+		guessesLeft = len(Text.ArtStages) - len(unsuccessfulGuesses)
 		
 		# Check if word is fully guessed
 		if len(wordCharacters) == len(successfulGuesses): break
 			
 	
-	# Success / Game Over
+	# Success / Game OverW
 	ConsoleTools.TimeoutTime = 0.5
 	if len(wordCharacters) == len(successfulGuesses):
 		# Success

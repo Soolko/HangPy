@@ -145,3 +145,13 @@ def GetPrintableWord(word: str, guesses: list) -> str:
 	output = ""
 	for character in word: output += character if character in guesses else "-"
 	return output
+
+def FormatArray(input: list) -> str:
+	output = ""
+	first = True
+	for element in input:
+		if not first:
+			output += ", "
+		output += str(element)
+		first = False
+	return output

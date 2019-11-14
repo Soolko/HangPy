@@ -32,7 +32,7 @@ def WriteErrorFromPosition(text: str, x: int, y: int):
 		sys.stderr.write(line)
 		y += 1
 
-TimeoutTime = 2.0
+TimeoutTime = 1.0
 
 DialogOffsetX = 10
 DialogOffsetY = 2
