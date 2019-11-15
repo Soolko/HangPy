@@ -1,4 +1,3 @@
-DictionaryPath = "./Dictionary.txt"
 Version = "Submission 2"
 
 import sys
@@ -6,45 +5,22 @@ import time
 import random
 
 import Text
+import Files
 import ConsoleTools
 from ConsoleTools import XOffset
 from ConsoleTools import YOffset
 
-def LoadDictionary(path: str) -> list:
-	# Load file
-	file = None
-	try:
-		file = open(path)
-	except FileNotFoundError:
-		print("Could not find Dictionary file \"" + path + "\".")
-		exit(0)
-	assert file != None
-
-	# Load into single string.
-	contents = ""
-	for line in file: contents += line + "\n"
-	
-	# Format newlines into spaces
-	formatted = ""
-	for character in contents: formatted += character if character != '\n' else ' '
-
-	# Split up into dictionary
-	dictionary = []
-	current = ""
-	for character in formatted:
-		if character == ' ':
-			if current == "": continue
-			dictionary.append(current)
-			current = ""
-		else: current += character
-	
-	# Return that dictionary
-	return dictionary
+Dictionary = []
+Scoreboard = []
 
 def Game():
-	dictionary = LoadDictionary(DictionaryPath)
-	word = random.choice(dictionary)
+	global Dictionary
+	Dictionary = Files.LoadDictionary(Files.DictionaryPath)
+	word = random.choice(Dictionary)
 	word = word.upper()
+
+	global Scoreboard
+	Scoreboard = Files.LoadScoreboard(Files.ScoreboardPath)
 	
 	# Get individual characters of the word to compare length to guesses.
 	# This will find whether it's been guessed properly or not.
@@ -139,6 +115,38 @@ def Game():
 	time.sleep(5.0)
 	Menu()
 
+def DisplayScoreboard():
+	ConsoleTools.Clear()
+
+	# Scoreboard
+	scoreboardTitle = "Scoreboard"
+	ConsoleTools.WriteFromPosition(scoreboardTitle + "\n" + ("=" * len(scoreboardTitle)), 25, 1)
+
+	# Construct table header (Messy, I know)
+	ConsoleTools.WriteFromPosition("|", 5, 4)
+	ConsoleTools.WriteFromPosition("Name", 16, 4)
+	ConsoleTools.WriteFromPosition("|", 30, 4)
+	ConsoleTools.WriteFromPosition("Score", 41, 4)
+	ConsoleTools.WriteFromPosition("|", 55, 4)
+
+	ConsoleTools.WriteFromPosition("-" * 51, 5, 5)
+
+	# Generate table
+	position = 6
+	for entry in Scoreboard:
+		# Name
+		ConsoleTools.WriteFromPosition("|", 5, position)
+		ConsoleTools.WriteFromPosition(entry[0], 18 - (len(entry[0]) // 2), position)
+		
+		ConsoleTools.WriteFromPosition("|", 30, position)
+
+		# Score
+		ConsoleTools.WriteFromPosition(str(entry[1]), 43 - (len(str(entry[1])) // 2), position)
+		ConsoleTools.WriteFromPosition("|", 55, position)
+
+		# Increment position
+		position += 1
+
 def ExitProgram():
 	ConsoleTools.Clear()
 	exit(1)
@@ -165,11 +173,11 @@ def Menu():
 
 		# Play button
 		playString = "Play Hangman"
-		ConsoleTools.WriteFromPosition("> " + playString + " <" if selection == 0 else "  " + playString, 35, YOffset + 8)
+		ConsoleTools.WriteFromPosition("> " + playString + " <" if selection == 0 else "  " + playString, 28, YOffset + 8)
 		
 		# Exit button
 		exitString = "Exit Program"
-		ConsoleTools.WriteFromPosition("> " + exitString + " <" if selection == 1 else "  " + exitString, 35, YOffset + 10)
+		ConsoleTools.WriteFromPosition("> " + exitString + " <" if selection == 1 else "  " + exitString, 28, YOffset + 10)
 		
 		# Read input and move cursor, or set & execute the pointer
 		ConsoleTools.SetCursor(0, 0)
