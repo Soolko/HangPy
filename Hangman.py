@@ -104,6 +104,16 @@ def Game():
 			ConsoleTools.XOffset + ConsoleTools.DialogOffsetX + 2,
 			ConsoleTools.YOffset + ConsoleTools.DialogOffsetY + 3
 		)
+
+		# Allow player to enter name
+		ConsoleTools.SetCursor(
+			ConsoleTools.XOffset + ConsoleTools.DialogOffsetX + 2,
+			ConsoleTools.YOffset + ConsoleTools.DialogOffsetY + 5
+		)
+		name = input("Enter your name if you want to add it to the scoreboard: ")
+		if len(name) > 0:
+			Scoreboard.append((name, score))
+			Files.SaveScoreboard(Files.ScoreboardPath, Scoreboard)
 	else:
 		# Failed
 		ConsoleTools.DialogError("You have failed to guess the word.")
@@ -148,6 +158,8 @@ def DisplayScoreboard():
 		position += 1
 
 def ExitProgram():
+	# Save & Exit
+	Files.SaveScoreboard(Files.ScoreboardPath, Scoreboard)
 	ConsoleTools.Clear()
 	exit(1)
 
@@ -165,7 +177,7 @@ def Menu():
 	selected = None
 
 	selection = 0
-	MaxOption = 1
+	MaxOption = 2
 
 	while selected == None:
 		# Title
@@ -175,9 +187,13 @@ def Menu():
 		playString = "Play Hangman"
 		ConsoleTools.WriteFromPosition("> " + playString + " <" if selection == 0 else "  " + playString, 28, YOffset + 8)
 		
+		# Scoreboard button
+		scoreboardString = "Scoreboard"
+		ConsoleTools.WriteFromPosition(">  " + scoreboardString + "  <" if selection == 1 else "   " + scoreboardString, 28, YOffset + 9)
+
 		# Exit button
 		exitString = "Exit Program"
-		ConsoleTools.WriteFromPosition("> " + exitString + " <" if selection == 1 else "  " + exitString, 28, YOffset + 10)
+		ConsoleTools.WriteFromPosition("> " + exitString + " <" if selection == 2 else "  " + exitString, 28, YOffset + 10)
 		
 		# Read input and move cursor, or set & execute the pointer
 		ConsoleTools.SetCursor(0, 0)
@@ -191,7 +207,8 @@ def Menu():
 		elif key == chr(13):
 			# Set selection to the method when enter is pressed
 			if selection == 0: selected = Game
-			if selection == 1: selected = ExitProgram
+			if selection == 1: selected = DisplayScoreboard
+			if selection == 2: selected = ExitProgram
 	
 	# Run the selected method through its pointer
 	selected()
