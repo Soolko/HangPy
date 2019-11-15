@@ -156,6 +156,15 @@ def DisplayScoreboard():
 
 		# Increment position
 		position += 1
+	
+	# Reset cursor
+	ConsoleTools.SetCursor(0, 0)
+
+	# Wait for keypress
+	ConsoleTools.GetInput()
+
+	# Return to menu
+	Menu()
 
 def ExitProgram():
 	# Save & Exit
