@@ -188,7 +188,9 @@ def Menu():
 	# Run the selected method through its pointer
 	selected()
 
+# Manual Launch
 def Hangman():
 	Menu()
 
+# Auto Launch
 if __name__ == "__main__": Hangman()
