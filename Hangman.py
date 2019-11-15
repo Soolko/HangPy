@@ -75,8 +75,9 @@ def Game():
 		ConsoleTools.WriteFromPosition(Text.GetPrintableWord(word, successfulGuesses), XOffset + 12, YOffset + 2)
 
 		# Write unsuccessful guesses
-		ConsoleTools.WriteErrorFromPosition("Unsuccessful Guesses:", XOffset, YOffset + 4)
-		ConsoleTools.WriteErrorFromPosition(Text.FormatArray(unsuccessfulGuesses), XOffset + 5, YOffset + 5)
+		if len(unsuccessfulGuesses) > 0:
+			ConsoleTools.WriteErrorFromPosition("Unsuccessful Guesses:", XOffset, YOffset + 4)
+			ConsoleTools.WriteErrorFromPosition(Text.FormatArray(unsuccessfulGuesses), XOffset + 5, YOffset + 5)
 
 		# Write the guesses left
 		ConsoleTools.WriteFromPosition("You have " + str(GetGuesses()) + " guesses left.", XOffset, YOffset + 7)
@@ -120,7 +121,13 @@ def Game():
 		)
 
 		# Get the score
-		
+		time.sleep(0.25)
+		score = GetGuesses() * Text.UniqueLetters(word)
+		ConsoleTools.WriteFromPosition(
+			"Your score was: " + str(score),
+			ConsoleTools.XOffset + ConsoleTools.DialogOffsetX + 2,
+			ConsoleTools.YOffset + ConsoleTools.DialogOffsetY + 3
+		)
 	else:
 		# Failed
 		ConsoleTools.DialogError("You have failed to guess the word.")

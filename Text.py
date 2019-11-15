@@ -157,6 +157,15 @@ def GetPrintableWord(word: str, guesses: list) -> str:
 	for character in word: output += character if character in guesses else "-"
 	return output
 
+def UniqueLetters(word: str) -> int:
+	used = []
+	total = 0
+	for char in word:
+		if char not in used:
+			used.append(char)
+			total += 1
+	return total
+
 def FormatArray(input: list) -> str:
 	output = ""
 	first = True
