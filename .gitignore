@@ -1,2 +1,6 @@
+# VSCode / Python
 /__pycache__/
 /.vscode/
+
+# Project specific
+*.csv
