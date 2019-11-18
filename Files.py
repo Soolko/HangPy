@@ -1,6 +1,8 @@
 DictionaryPath = "./Dictionary.txt"
 ScoreboardPath = "./Scoreboard.csv"
 
+import os
+
 def LoadFile(path: str) -> str:
 	# Load file
 	file = open(path)
@@ -46,13 +48,11 @@ def LoadDictionary(path: str) -> list:
 
 def LoadScoreboard(path: str) -> list:
 	# Load in base file
-	contents = None
-	try:
+	if os.path.exists(path):
 		contents = LoadFile(path)
-	except FileNotFoundError:
-		print("Scoreboard file not found.\nCreating new one at \"" + path + "\".")
-		SaveScoreboard(path, [])
+	else:
 		return []
+	
 	# Sanity check
 	assert contents != None
 

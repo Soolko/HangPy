@@ -18,9 +18,6 @@ def Game():
 	Dictionary = Files.LoadDictionary(Files.DictionaryPath)
 	word = random.choice(Dictionary)
 	word = word.upper()
-
-	global Scoreboard
-	Scoreboard = Files.LoadScoreboard(Files.ScoreboardPath)
 	
 	# Get individual characters of the word to compare length to guesses.
 	# This will find whether it's been guessed properly or not.
@@ -224,6 +221,9 @@ def Menu():
 
 # Manual Launch
 def Hangman():
+	global Scoreboard
+	Scoreboard = Files.LoadScoreboard(Files.ScoreboardPath)
+	
 	Menu()
 
 # Auto Launch
